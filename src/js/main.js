@@ -32,7 +32,7 @@ function displayResults(weather) {
   temp.innerHTML = `${Math.round(weather.main.temp)}<span>&#8451;</span>`;
 
   let weather_el = document.querySelector(".current .weather");
-  weather_el.innerText = weather.weather[0].main;
+  weather_el.innerHTML = `Vetar: ${Math.round(weather.wind.speed)} km/h`;
 
   let hiLow = document.querySelector(".hi-low");
   hiLow.innerHTML = `min. ${Math.round(
