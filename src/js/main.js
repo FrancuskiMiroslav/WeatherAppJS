@@ -1,76 +1,136 @@
-const api = {
-  key: "04afd98c4d235fb8ba117d5701f7ecf3",
-  baseUrl: "https://api.openweathermap.org/data/2.5/"
-};
+document.addEventListener('DOMContentLoaded', function () {
+	window.addEventListener('load', (e) => {
+		const preload = document.querySelector('.preload');
 
-const searchBox = document.querySelector(".search-box");
-searchBox.addEventListener("keypress", setQuery);
+		preload.classList.add('preload-finished');
+	});
 
-function setQuery(e) {
-  if (e.keyCode == 13) {
-    getResults(searchBox.value);
-  }
-}
+	const btnScrollToTop = document.getElementById('btnScrollToTop');
 
-function getResults(q) {
-  fetch(`${api.baseUrl}weather?q=${q}&units=metric&APPID=${api.key}`)
-    .then(weather => {
-      return weather.json();
-    })
-    .then(displayResults);
-}
+	if (btnScrollToTop) {
+		btnScrollToTop.addEventListener('click', (e) => {
+			window.scrollTo({
+				top: 0,
+				left: 0,
+				behavior: 'smooth',
+			});
+		});
+	}
 
-function displayResults(weather) {
-  let city = document.querySelector(".location .city");
-  city.innerText = `${weather.name}, ${weather.sys.country}`;
+	const api = {
+		key: '04afd98c4d235fb8ba117d5701f7ecf3',
+		baseUrl: 'https://api.openweathermap.org/data/2.5/',
+	};
 
-  let now = new Date();
-  let date = document.querySelector(".location .date");
-  date.innerText = dateBuilder(now);
+	const searchBox = document.querySelector('.search-box');
+	const searchBtn = document.querySelector('.submit-box');
+	const form = document.getElementById('myForm');
+	const single_cityEl = document.getElementById('single-city');
 
-  let temp = document.querySelector(".current .temp");
-  temp.innerHTML = `${Math.round(weather.main.temp)}<span>&#8451;</span>`;
+	async function searchCity(e) {
+		e.preventDefault();
 
-  let weather_el = document.querySelector(".current .weather");
-  weather_el.innerHTML = `Vetar: ${Math.round(weather.wind.speed)} km/h`;
+		single_cityEl.innerHTML = '';
 
-  let hiLow = document.querySelector(".hi-low");
-  hiLow.innerHTML = `min. ${Math.round(
-    weather.main.temp_min
-  )} <span>&#8451;</span> / max. ${Math.round(
-    weather.main.temp_max
-  )} <span>&#8451;</span>`;
-}
+		const term = searchBox.value;
 
-function dateBuilder(d) {
-  let months = [
-    "Januar",
-    "Februar",
-    "Mart",
-    "April",
-    "Maj",
-    "Jun",
-    "Jul",
-    "Avgust",
-    "Septembar",
-    "Oktobar",
-    "Novembar",
-    "Decembar"
-  ];
-  let days = [
-    "Nedelja",
-    "Ponedeljak",
-    "Utorak",
-    "Sreda",
-    "Četvrtak",
-    "Petak",
-    "Subota"
-  ];
+		if (term.trim()) {
+			const response = await fetch(
+				`${api.baseUrl}weather?q=${term}&units=metric&APPID=${api.key}`
+			);
+			const data = await response.json();
 
-  let day = days[d.getDay()];
-  let date = d.getDate();
-  let month = months[d.getMonth()];
-  let year = d.getFullYear();
+			if (data === null) {
+				console.log('There are no search results. Try again!');
+			} else {
+				const {
+					name,
+					main: { temp, temp_max, temp_min, humidity, feels_like },
+					sys: { country },
+					weather: [{ description, icon }],
+					wind: { speed },
+				} = data;
 
-  return `${day}, ${date}. ${month} ${year}.`;
-}
+				single_cityEl.innerHTML = `
+						<section class="location">
+							<div class="city">${name}, ${country}</div>
+							<div class="date">Utorak, 11.februar 2020.</div>
+						</section>
+						<div class="current">
+							<div class="temp"> ${Math.round(temp)}
+								<span> &#8451; </span>
+							</div>
+
+							<div class="weather">
+								<ul class="weather__list">
+									<li class="weather__list-item">Vetar: ${Math.round(speed)} km/h</li>
+									<li class="weather__list-item">Vlažnost: ${Math.round(humidity)}%</li>
+									<li class="weather__list-item">Osećaj: ${Math.round(
+										feels_like
+									)}<span> &#8451; </span></li>
+									<li class="weather__list-item"><img src="http://openweathermap.org/img/w/${icon}.png" alt="${description}"><span>${description}</span></li>
+								</ul>
+								
+							</div>
+
+							<div class="hi-low">
+								min. ${Math.round(temp_min)} <span>&#8451;</span> / max. ${Math.round(
+					temp_max
+				)} <span>&#8451;</span>
+							</div>
+						</div>
+						`;
+
+				let now = new Date();
+				let date = document.querySelector('.location .date');
+				date.innerText = dateBuilder(now);
+			}
+		} else {
+			alert('Please enter a search term');
+		}
+	}
+
+	function dateBuilder(d) {
+		let months = [
+			'Januar',
+			'Februar',
+			'Mart',
+			'April',
+			'Maj',
+			'Jun',
+			'Jul',
+			'Avgust',
+			'Septembar',
+			'Oktobar',
+			'Novembar',
+			'Decembar',
+		];
+		let days = [
+			'Nedelja',
+			'Ponedeljak',
+			'Utorak',
+			'Sreda',
+			'Četvrtak',
+			'Petak',
+			'Subota',
+		];
+
+		let day = days[d.getDay()];
+		let date = d.getDate();
+		let month = months[d.getMonth()];
+		let year = d.getFullYear();
+
+		return `${day}, ${date}. ${month} ${year}.`;
+	}
+
+	searchBox.addEventListener('keydown', (e) => {
+		if (e.keyCode == 13 && searchBox.value != '') {
+			searchCity(searchBox.value);
+		}
+	});
+
+	form.addEventListener('submit', searchCity);
+
+	searchBox.value = 'Novi Sad';
+	searchBtn.click();
+});

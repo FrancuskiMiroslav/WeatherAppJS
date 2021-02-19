@@ -1,0 +1,148 @@
+.button {
+	display: inline-block;
+	border: none;
+	color: #fff;
+	text-decoration: none;
+	background-color: $secondary_clr;
+	padding: 15px 45px;
+	font-size: 13px;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 3px;
+	border-radius: 2px;
+	text-align: center;
+	position: relative;
+	outline: none;
+	transition: background-color 0.1s ease;
+	cursor: pointer;
+
+	&::after {
+		transition: background-color 0.2s ease;
+		position: absolute;
+		content: '';
+		height: 4px;
+		bottom: 0;
+		width: 100%;
+		background-color: darken($primary_clr, 50%);
+		opacity: 0.18;
+		border-bottom-left-radius: 2px;
+		border-bottom-right-radius: 2px;
+		left: 0;
+	}
+
+	&:focus,
+	&:hover {
+		text-decoration: none;
+		color: #fff;
+	}
+
+	&:hover {
+		background-color: lighten($primary_clr, 5%);
+		&::after {
+			opacity: 0.22;
+		}
+	}
+
+	&:active {
+		background-color: darken($primary_clr, 5%);
+		&::after {
+			opacity: 0.32;
+		}
+	}
+}
+
+.menu-btn {
+	display: none;
+	min-width: 20px;
+	min-height: 15px;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	cursor: pointer;
+	transition: 0.5s all ease-in-out;
+
+	&:hover {
+		.menu-btn__burger {
+			&::before {
+				transform: rotate(-360deg);
+				background-color: #ffffff;
+			}
+
+			&::after {
+				transform: rotate(360deg);
+				background-color: #ffffff;
+			}
+		}
+	}
+
+	@include breakpoint-max(800) {
+		display: flex;
+		margin-left: 20px;
+
+		&.clicked {
+			transition: 0.5s all ease-in-out;
+			.menu-btn__burger {
+				transform: rotate(45deg);
+				background-color: #ffffff;
+
+				&::before {
+					transform: rotate(-90deg);
+					background-color: #ffffff;
+				}
+
+				&::after {
+					top: 0px;
+					transform: translateY(-5000px);
+					background-color: #ffffff;
+				}
+			}
+
+			&:hover {
+				.menu-btn__burger {
+					transform: rotate(-360deg);
+				}
+			}
+		}
+	}
+
+	&__burger {
+		height: 3px;
+		width: 100%;
+		background-color: #ffffff;
+		transition: 0.5s all ease-in-out;
+
+		&::before,
+		&::after {
+			position: absolute;
+			content: '';
+			background-color: #ffffff;
+			height: 3px;
+			width: 100%;
+			transition: 0.5s all ease-in-out;
+		}
+
+		&::before {
+			bottom: 0px;
+		}
+
+		&::after {
+			top: 0px;
+		}
+	}
+}
+
+.scrollTopBtn {
+	position: fixed;
+	font-size: 18px;
+	height: 30px;
+	width: 30px;
+	padding: 4px;
+	right: 0px;
+	bottom: 8px;
+	z-index: 5000;
+	border-radius: 50% 50% 0 0;
+	opacity: 0;
+	transition: 0.5s ease all;
+	transform: rotate(-90deg);
+	background-color: $secondary_clr;
+}

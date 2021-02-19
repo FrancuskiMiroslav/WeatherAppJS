@@ -1,6 +1,6 @@
 # Dependency directories
 node_modules
-*.json
+.env
 
 ### Windows ###
 Thumbs.db
@@ -53,9 +53,3 @@ Thumbs.db
 *.DS_Store
 .AppleDouble
 .LSOverride
-
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
-*.css
