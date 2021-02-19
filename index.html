@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!--build:css css/styles.min.css-->
-    <link rel="stylesheet" href="css/style.css" />
-    <!--endbuild-->
-    <title>WeatherApp</title>
-  </head>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta
+			name="keywords"
+			content="web development, frontend, Front-end, html, html5, css, css3, sass, scss, javascript, gulp, babel, webpack"
+		/>
+		<meta name="author" content="Francuski Miroslav" />
+		<meta
+			name="description"
+			content="Portfolio for frontend web developer projects"
+		/>
+		<title>WeatherApp</title>
+		<link rel="stylesheet" href="app.css" />
+	</head>
+	<body id="home-img">
+		<div class="preload">
+			<img src="./assets/images/loading.gif" alt="loading-image" />
+		</div>
 
-  <body id="home-img">
-    <div class="app-wrap">
-      <header>
-        <input
-          type="text"
-          autocomplete="off"
-          class="search-box"
-          placeholder="Search for a city..."
-        />
-      </header>
+		<button class="button scrollTopBtn" id="btnScrollToTop">
+			<svg
+				class="scrollTopBtn__svg"
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="#fff"
+			>
+				<path d="M24 12l-12-9v5h-12v8h12v5l12-9z" />
+			</svg>
+		</button>
 
-      <main>
-        <section class="location">
-          <div class="city">
-            Novi Sad, RS
-          </div>
-          <div class="date">Utorak, 11.februar 2020.</div>
-        </section>
-        <div class="current">
-          <div class="temp">
-            12
-            <span>
-              &#8451;
-            </span>
-          </div>
-          <div class="weather">
-            Vetar: 16 km/h
-          </div>
-          <div class="hi-low">
-            min .3 <span>&#8451;</span> / max. 12 <span>&#8451;</span>
-          </div>
-        </div>
-      </main>
-    </div>
+		<div class="app-wrap">
+			<header>
+				<form id="myForm">
+					<input
+						type="text"
+						autocomplete="off"
+						class="search-box"
+						placeholder="Search for a city..."
+					/>
+					<input
+						type="submit"
+						value="search"
+						autocomplete="off"
+						class="submit-box"
+						placeholder="search"
+					/>
+				</form>
+			</header>
 
-    <footer></footer>
-    <!--build:js js/main.min.js -->
-    <script type="text/javascript" src="js/main.js"></script>
-    <!-- endbuild -->
-  </body>
+			<main>
+				<section id="single-city"></section>
+			</main>
+		</div>
+
+		<script src="app.js"></script>
+	</body>
 </html>
